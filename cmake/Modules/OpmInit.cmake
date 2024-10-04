@@ -23,6 +23,8 @@
 macro(OpmSetPolicies)
   if (POLICY CMP0026)
     # Needed as we query LOCATION in OpmCompile.cmake and OpmSatellites.cmake
+    # 24/10/03 기존 OLD에서 NEW로 바꿈. allow access라고 되어있는데 기존 old는 access 불가하게 명령하는 것이기 때문에
+    # NEW로 빌드했더니 location 관련 에러가 나타나서 다시 old로 수정
     cmake_policy(SET CMP0026 OLD)
   endif()
 

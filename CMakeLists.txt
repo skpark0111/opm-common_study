@@ -1,6 +1,14 @@
 cmake_minimum_required (VERSION 3.10)
 project(opm-common C CXX)
 
+# 24/10/03 debug mode build
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'Debug' as none was specified.")
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+  # Optionally, define the possible build types
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
+endif()
+
 option(SIBLING_SEARCH "Search for other modules in sibling directories?" ON)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules)
 set(OPM_MACROS_ROOT ${PROJECT_SOURCE_DIR})
@@ -54,6 +62,10 @@ endif()
 # project information is in dune.module. Read this file and set variables.
 # we cannot generate dune.module since it is read by dunecontrol before
 # the build starts, so it makes sense to keep the data there then.
+# 24/10/03 환경 변수에 이미 OPM_TESTS_ROOT가 지정되었는지 확인하고, 필요한 경우 기본값 제공
+if(NOT DEFINED OPM_TESTS_ROOT)
+    set(OPM_TESTS_ROOT "${CMAKE_SOURCE_DIR}/../opm-tests_study" CACHE PATH "Path to opm-tests_study")
+endif()
 include (OpmInit)
 OpmSetPolicies()
 

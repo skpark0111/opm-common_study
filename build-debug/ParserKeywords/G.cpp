@@ -1,0 +1,3541 @@
+
+#include <opm/input/eclipse/Deck/UDAValue.hpp>
+#include <opm/input/eclipse/Parser/ParserItem.hpp>
+#include <opm/input/eclipse/Parser/ParserRecord.hpp>
+#include <opm/input/eclipse/Parser/Parser.hpp>
+
+
+
+
+
+#include <opm/input/eclipse/Parser/ParserKeywords/G.hpp>
+namespace Opm {
+namespace ParserKeywords {
+GAS::GAS() : ParserKeyword("GAS", KeywordSize(0, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GAS");
+}
+const std::string GAS::keywordName = "GAS";
+
+
+GASBEGIN::GASBEGIN() : ParserKeyword("GASBEGIN", KeywordSize(0, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASBEGIN");
+}
+const std::string GASBEGIN::keywordName = "GASBEGIN";
+
+
+GASCONC::GASCONC() : ParserKeyword("GASCONC", KeywordSize(1, false)) {
+  addValidSectionName("SOLUTION");
+  clearDeckNames();
+  addDeckName("GASCONC");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("data", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("1");
+        record.addDataItem(item);
+     }
+     addDataRecord( record );
+  }
+}
+const std::string GASCONC::keywordName = "GASCONC";
+const std::string GASCONC::data::itemName = "data";
+
+
+GASDENT::GASDENT() : ParserKeyword("GASDENT", KeywordSize("TABDIMS", "NTPVT", false, 0)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GASDENT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("REFERENCE_TEMPERATURE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(293.150000) );
+        item.push_backDimension("AbsoluteTemperature");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("EXPANSION_COEFF_LINEAR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("1/AbsoluteTemperature");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("EXPANSION_COEFF_QUADRATIC", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("1/AbsoluteTemperature*AbsoluteTemperature");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASDENT::keywordName = "GASDENT";
+const std::string GASDENT::REFERENCE_TEMPERATURE::itemName = "REFERENCE_TEMPERATURE";
+const std::string GASDENT::EXPANSION_COEFF_LINEAR::itemName = "EXPANSION_COEFF_LINEAR";
+const std::string GASDENT::EXPANSION_COEFF_QUADRATIC::itemName = "EXPANSION_COEFF_QUADRATIC";
+
+
+GASEND::GASEND() : ParserKeyword("GASEND", KeywordSize(0, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASEND");
+}
+const std::string GASEND::keywordName = "GASEND";
+
+
+GASFCOMP::GASFCOMP() : ParserKeyword("GASFCOMP", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASFCOMP");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("VFP_TABLE_NUM", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ARTFICIAL_LIFT_QNTY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_CONSUMPTION_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("COMPRESSION_LVL", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ACTION_SEQ_NUM", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASFCOMP::keywordName = "GASFCOMP";
+const std::string GASFCOMP::GROUP::itemName = "GROUP";
+const std::string GASFCOMP::VFP_TABLE_NUM::itemName = "VFP_TABLE_NUM";
+const std::string GASFCOMP::ARTFICIAL_LIFT_QNTY::itemName = "ARTFICIAL_LIFT_QNTY";
+const std::string GASFCOMP::GAS_CONSUMPTION_RATE::itemName = "GAS_CONSUMPTION_RATE";
+const std::string GASFCOMP::COMPRESSION_LVL::itemName = "COMPRESSION_LVL";
+const std::string GASFCOMP::ACTION_SEQ_NUM::itemName = "ACTION_SEQ_NUM";
+
+
+GASFDECR::GASFDECR() : ParserKeyword("GASFDECR", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASFDECR");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("JAN", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FEB", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("APR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("JUN", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("JUL", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("AUG", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SEP", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OCT", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NOV", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DEC", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASFDECR::keywordName = "GASFDECR";
+const std::string GASFDECR::JAN::itemName = "JAN";
+const std::string GASFDECR::FEB::itemName = "FEB";
+const std::string GASFDECR::MAR::itemName = "MAR";
+const std::string GASFDECR::APR::itemName = "APR";
+const std::string GASFDECR::MAY::itemName = "MAY";
+const std::string GASFDECR::JUN::itemName = "JUN";
+const std::string GASFDECR::JUL::itemName = "JUL";
+const std::string GASFDECR::AUG::itemName = "AUG";
+const std::string GASFDECR::SEP::itemName = "SEP";
+const std::string GASFDECR::OCT::itemName = "OCT";
+const std::string GASFDECR::NOV::itemName = "NOV";
+const std::string GASFDECR::DEC::itemName = "DEC";
+
+
+GASFDELC::GASFDELC() : ParserKeyword("GASFDELC", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASFDELC");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("VALUE", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASFDELC::keywordName = "GASFDELC";
+const std::string GASFDELC::VALUE::itemName = "VALUE";
+
+
+GASFIELD::GASFIELD() : ParserKeyword("GASFIELD", KeywordSize(1, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GASFIELD");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("FLAG_COMP", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FLAG_IT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASFIELD::keywordName = "GASFIELD";
+const std::string GASFIELD::FLAG_COMP::itemName = "FLAG_COMP";
+const std::string GASFIELD::FLAG_COMP::defaultValue = "NO";
+const std::string GASFIELD::FLAG_IT::itemName = "FLAG_IT";
+const std::string GASFIELD::FLAG_IT::defaultValue = "NO";
+
+
+GASFTARG::GASFTARG() : ParserKeyword("GASFTARG", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASFTARG");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("JAN", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FEB", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("APR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAY", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("JUN", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("JUL", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("AUG", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SEP", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OCT", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NOV", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DEC", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Length/Time");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASFTARG::keywordName = "GASFTARG";
+const std::string GASFTARG::JAN::itemName = "JAN";
+const std::string GASFTARG::FEB::itemName = "FEB";
+const std::string GASFTARG::MAR::itemName = "MAR";
+const std::string GASFTARG::APR::itemName = "APR";
+const std::string GASFTARG::MAY::itemName = "MAY";
+const std::string GASFTARG::JUN::itemName = "JUN";
+const std::string GASFTARG::JUL::itemName = "JUL";
+const std::string GASFTARG::AUG::itemName = "AUG";
+const std::string GASFTARG::SEP::itemName = "SEP";
+const std::string GASFTARG::OCT::itemName = "OCT";
+const std::string GASFTARG::NOV::itemName = "NOV";
+const std::string GASFTARG::DEC::itemName = "DEC";
+
+
+GASJT::GASJT() : ParserKeyword("GASJT", KeywordSize("TABDIMS", "NTPVT", false, 0)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GASJT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("PREF", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1.013200) );
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("JOULE_THOMSON_COEFFICIENT", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("AbsoluteTemperature/Pressure");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASJT::keywordName = "GASJT";
+const std::string GASJT::PREF::itemName = "PREF";
+const std::string GASJT::JOULE_THOMSON_COEFFICIENT::itemName = "JOULE_THOMSON_COEFFICIENT";
+
+
+GASMONTH::GASMONTH() : ParserKeyword("GASMONTH", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASMONTH");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MONTH", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WRITE_REPORT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASMONTH::keywordName = "GASMONTH";
+const std::string GASMONTH::MONTH::itemName = "MONTH";
+const std::string GASMONTH::WRITE_REPORT::itemName = "WRITE_REPORT";
+const std::string GASMONTH::WRITE_REPORT::defaultValue = "NO";
+
+
+GASPERIO::GASPERIO() : ParserKeyword("GASPERIO", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASPERIO");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("NUM_PERIODS", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NUM_MONTHS", ParserItem::itype::INT);
+        item.setDefault( 12 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("INITIAL_DCQ", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_REQ", ParserItem::itype::STRING);
+        item.setDefault( std::string("PER") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIMIT_TIMESTEPS", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIMIT_DCQ_RED_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ANTICIPATED_DCQ_RED_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_ITERATIONS", ParserItem::itype::INT);
+        item.setDefault( 3 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DCQ_CONV_TOLERANCE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0.100000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASPERIO::keywordName = "GASPERIO";
+const std::string GASPERIO::NUM_PERIODS::itemName = "NUM_PERIODS";
+const std::string GASPERIO::NUM_MONTHS::itemName = "NUM_MONTHS";
+const std::string GASPERIO::INITIAL_DCQ::itemName = "INITIAL_DCQ";
+const std::string GASPERIO::SWING_REQ::itemName = "SWING_REQ";
+const std::string GASPERIO::SWING_REQ::defaultValue = "PER";
+const std::string GASPERIO::LIMIT_TIMESTEPS::itemName = "LIMIT_TIMESTEPS";
+const std::string GASPERIO::LIMIT_TIMESTEPS::defaultValue = "YES";
+const std::string GASPERIO::LIMIT_DCQ_RED_FACTOR::itemName = "LIMIT_DCQ_RED_FACTOR";
+const std::string GASPERIO::ANTICIPATED_DCQ_RED_FACTOR::itemName = "ANTICIPATED_DCQ_RED_FACTOR";
+const std::string GASPERIO::MAX_ITERATIONS::itemName = "MAX_ITERATIONS";
+const std::string GASPERIO::DCQ_CONV_TOLERANCE::itemName = "DCQ_CONV_TOLERANCE";
+
+
+GASSATC::GASSATC() : ParserKeyword("GASSATC", KeywordSize(1, false)) {
+  addValidSectionName("SOLUTION");
+  clearDeckNames();
+  addDeckName("GASSATC");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("data", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("1");
+        record.addDataItem(item);
+     }
+     addDataRecord( record );
+  }
+}
+const std::string GASSATC::keywordName = "GASSATC";
+const std::string GASSATC::data::itemName = "data";
+
+
+GASVISCT::GASVISCT() : ParserKeyword("GASVISCT", KeywordSize("TABDIMS", "NTPVT", false, 0)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GASVISCT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("DATA", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("Temperature");
+        item.push_backDimension("Viscosity");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASVISCT::keywordName = "GASVISCT";
+const std::string GASVISCT::DATA::itemName = "DATA";
+
+
+GASWAT::GASWAT() : ParserKeyword("GASWAT", KeywordSize(0, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GASWAT");
+}
+const std::string GASWAT::keywordName = "GASWAT";
+
+
+GASYEAR::GASYEAR() : ParserKeyword("GASYEAR", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GASYEAR");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("NUM_YEARS", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("INITIAL_DCQ", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_REQ", ParserItem::itype::STRING);
+        item.setDefault( std::string("YEAR") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIMIT_TIMESTEPS", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIMIT_DCQ_RED_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ANTICIPATED_DCQ_RED_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_ITERATIONS", ParserItem::itype::INT);
+        item.setDefault( 3 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DCQ_CONV_TOLERANCE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0.100000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GASYEAR::keywordName = "GASYEAR";
+const std::string GASYEAR::NUM_YEARS::itemName = "NUM_YEARS";
+const std::string GASYEAR::INITIAL_DCQ::itemName = "INITIAL_DCQ";
+const std::string GASYEAR::SWING_REQ::itemName = "SWING_REQ";
+const std::string GASYEAR::SWING_REQ::defaultValue = "YEAR";
+const std::string GASYEAR::LIMIT_TIMESTEPS::itemName = "LIMIT_TIMESTEPS";
+const std::string GASYEAR::LIMIT_TIMESTEPS::defaultValue = "YES";
+const std::string GASYEAR::LIMIT_DCQ_RED_FACTOR::itemName = "LIMIT_DCQ_RED_FACTOR";
+const std::string GASYEAR::ANTICIPATED_DCQ_RED_FACTOR::itemName = "ANTICIPATED_DCQ_RED_FACTOR";
+const std::string GASYEAR::MAX_ITERATIONS::itemName = "MAX_ITERATIONS";
+const std::string GASYEAR::DCQ_CONV_TOLERANCE::itemName = "DCQ_CONV_TOLERANCE";
+
+
+GCALECON::GCALECON() : ParserKeyword("GCALECON", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCALECON");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_ENERGY_PROD_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Energy/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_CALORIFIC_VAL", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Energy/GasSurfaceVolume");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FLAG_END_RUN", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCALECON::keywordName = "GCALECON";
+const std::string GCALECON::GROUP::itemName = "GROUP";
+const std::string GCALECON::MIN_ENERGY_PROD_RATE::itemName = "MIN_ENERGY_PROD_RATE";
+const std::string GCALECON::MIN_CALORIFIC_VAL::itemName = "MIN_CALORIFIC_VAL";
+const std::string GCALECON::FLAG_END_RUN::itemName = "FLAG_END_RUN";
+const std::string GCALECON::FLAG_END_RUN::defaultValue = "NO";
+
+
+GCOMPIDX::GCOMPIDX() : ParserKeyword("GCOMPIDX", KeywordSize(1, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GCOMPIDX");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GAS_COMPONENT_INDEX", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCOMPIDX::keywordName = "GCOMPIDX";
+const std::string GCOMPIDX::GAS_COMPONENT_INDEX::itemName = "GAS_COMPONENT_INDEX";
+
+
+GCONCAL::GCONCAL() : ParserKeyword("GCONCAL", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONCAL");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MEAN_CALORIFIC_VAL", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Energy/GasSurfaceVolume");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ACTION", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RATE_RED_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0.900000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONCAL::keywordName = "GCONCAL";
+const std::string GCONCAL::GROUP::itemName = "GROUP";
+const std::string GCONCAL::MEAN_CALORIFIC_VAL::itemName = "MEAN_CALORIFIC_VAL";
+const std::string GCONCAL::ACTION::itemName = "ACTION";
+const std::string GCONCAL::ACTION::defaultValue = "NONE";
+const std::string GCONCAL::RATE_RED_FACTOR::itemName = "RATE_RED_FACTOR";
+
+
+GCONENG::GCONENG() : ParserKeyword("GCONENG", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONENG");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ENERGY_PROD_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(100000000000000000000.000000) );
+        item.push_backDimension("Energy/Time");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONENG::keywordName = "GCONENG";
+const std::string GCONENG::GROUP::itemName = "GROUP";
+const std::string GCONENG::ENERGY_PROD_RATE::itemName = "ENERGY_PROD_RATE";
+
+
+GCONINJE::GCONINJE() : ParserKeyword("GCONINJE", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONINJE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PHASE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONTROL_MODE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SURFACE_TARGET", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RESV_TARGET", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("ReservoirVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("REINJ_TARGET", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("VOIDAGE_TARGET", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RESPOND_TO_PARENT", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GUIDE_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GUIDE_RATE_DEF", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("REINJECT_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("VOIDAGE_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WETGAS_TARGET", ParserItem::itype::DOUBLE);
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONINJE::keywordName = "GCONINJE";
+const std::string GCONINJE::GROUP::itemName = "GROUP";
+const std::string GCONINJE::PHASE::itemName = "PHASE";
+const std::string GCONINJE::CONTROL_MODE::itemName = "CONTROL_MODE";
+const std::string GCONINJE::CONTROL_MODE::defaultValue = "NONE";
+const std::string GCONINJE::SURFACE_TARGET::itemName = "SURFACE_TARGET";
+const UDAValue GCONINJE::SURFACE_TARGET::defaultValue = UDAValue(0);
+const std::string GCONINJE::RESV_TARGET::itemName = "RESV_TARGET";
+const UDAValue GCONINJE::RESV_TARGET::defaultValue = UDAValue(0);
+const std::string GCONINJE::REINJ_TARGET::itemName = "REINJ_TARGET";
+const UDAValue GCONINJE::REINJ_TARGET::defaultValue = UDAValue(0);
+const std::string GCONINJE::VOIDAGE_TARGET::itemName = "VOIDAGE_TARGET";
+const UDAValue GCONINJE::VOIDAGE_TARGET::defaultValue = UDAValue(0);
+const std::string GCONINJE::RESPOND_TO_PARENT::itemName = "RESPOND_TO_PARENT";
+const std::string GCONINJE::RESPOND_TO_PARENT::defaultValue = "YES";
+const std::string GCONINJE::GUIDE_RATE::itemName = "GUIDE_RATE";
+const std::string GCONINJE::GUIDE_RATE_DEF::itemName = "GUIDE_RATE_DEF";
+const std::string GCONINJE::REINJECT_GROUP::itemName = "REINJECT_GROUP";
+const std::string GCONINJE::VOIDAGE_GROUP::itemName = "VOIDAGE_GROUP";
+const std::string GCONINJE::WETGAS_TARGET::itemName = "WETGAS_TARGET";
+
+
+GCONPRI::GCONPRI() : ParserKeyword("GCONPRI", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONPRI");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OIL_PROD_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE_OIL_LIMIT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WAT_PROD_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE_WAT_LIMIT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_PROD_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE_GAS_LIMIT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIQ_PROD_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE_LIQ_LIMIT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RES_FLUID_PROD_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("ReservoirVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RES_VOL_BALANCING_FRAC_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WET_GAS_PROD_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE_WET_GAS_LIMIT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SURF_GAS_BALANCING_FRAC_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SURF_WAT_BALANCING_FRAC_UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("UPPER_LIMIT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE_LIMIT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONPRI::keywordName = "GCONPRI";
+const std::string GCONPRI::GROUP::itemName = "GROUP";
+const std::string GCONPRI::OIL_PROD_UPPER_LIMIT::itemName = "OIL_PROD_UPPER_LIMIT";
+const UDAValue GCONPRI::OIL_PROD_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::PROCEDURE_OIL_LIMIT::itemName = "PROCEDURE_OIL_LIMIT";
+const std::string GCONPRI::PROCEDURE_OIL_LIMIT::defaultValue = "NONE";
+const std::string GCONPRI::WAT_PROD_UPPER_LIMIT::itemName = "WAT_PROD_UPPER_LIMIT";
+const UDAValue GCONPRI::WAT_PROD_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::PROCEDURE_WAT_LIMIT::itemName = "PROCEDURE_WAT_LIMIT";
+const std::string GCONPRI::PROCEDURE_WAT_LIMIT::defaultValue = "NONE";
+const std::string GCONPRI::GAS_PROD_UPPER_LIMIT::itemName = "GAS_PROD_UPPER_LIMIT";
+const UDAValue GCONPRI::GAS_PROD_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::PROCEDURE_GAS_LIMIT::itemName = "PROCEDURE_GAS_LIMIT";
+const std::string GCONPRI::PROCEDURE_GAS_LIMIT::defaultValue = "NONE";
+const std::string GCONPRI::LIQ_PROD_UPPER_LIMIT::itemName = "LIQ_PROD_UPPER_LIMIT";
+const UDAValue GCONPRI::LIQ_PROD_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::PROCEDURE_LIQ_LIMIT::itemName = "PROCEDURE_LIQ_LIMIT";
+const std::string GCONPRI::PROCEDURE_LIQ_LIMIT::defaultValue = "NONE";
+const std::string GCONPRI::RES_FLUID_PROD_UPPER_LIMIT::itemName = "RES_FLUID_PROD_UPPER_LIMIT";
+const UDAValue GCONPRI::RES_FLUID_PROD_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::RES_VOL_BALANCING_FRAC_UPPER_LIMIT::itemName = "RES_VOL_BALANCING_FRAC_UPPER_LIMIT";
+const UDAValue GCONPRI::RES_VOL_BALANCING_FRAC_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::WET_GAS_PROD_UPPER_LIMIT::itemName = "WET_GAS_PROD_UPPER_LIMIT";
+const UDAValue GCONPRI::WET_GAS_PROD_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::PROCEDURE_WET_GAS_LIMIT::itemName = "PROCEDURE_WET_GAS_LIMIT";
+const std::string GCONPRI::PROCEDURE_WET_GAS_LIMIT::defaultValue = "NONE";
+const std::string GCONPRI::SURF_GAS_BALANCING_FRAC_UPPER_LIMIT::itemName = "SURF_GAS_BALANCING_FRAC_UPPER_LIMIT";
+const UDAValue GCONPRI::SURF_GAS_BALANCING_FRAC_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::SURF_WAT_BALANCING_FRAC_UPPER_LIMIT::itemName = "SURF_WAT_BALANCING_FRAC_UPPER_LIMIT";
+const UDAValue GCONPRI::SURF_WAT_BALANCING_FRAC_UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::UPPER_LIMIT::itemName = "UPPER_LIMIT";
+const UDAValue GCONPRI::UPPER_LIMIT::defaultValue = UDAValue(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000);
+const std::string GCONPRI::PROCEDURE_LIMIT::itemName = "PROCEDURE_LIMIT";
+const std::string GCONPRI::PROCEDURE_LIMIT::defaultValue = "NONE";
+
+
+GCONPROD::GCONPROD() : ParserKeyword("GCONPROD", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONPROD");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONTROL_MODE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OIL_TARGET", ParserItem::itype::UDA);
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WATER_TARGET", ParserItem::itype::UDA);
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_TARGET", ParserItem::itype::UDA);
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIQUID_TARGET", ParserItem::itype::UDA);
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("EXCEED_PROC", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RESPOND_TO_PARENT", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GUIDE_RATE", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GUIDE_RATE_DEF", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WATER_EXCEED_PROCEDURE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_EXCEED_PROCEDURE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIQUID_EXCEED_PROCEDURE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RESERVOIR_FLUID_TARGET", ParserItem::itype::DOUBLE);
+        item.push_backDimension("ReservoirVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RESERVOIR_VOLUME_BALANCE", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WET_GAS_TARGET", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CALORIFIC_TARGET", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SURFACE_GAS_FRACTION", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SURFACE_WAT_FRACTION", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LINEAR_COMBINED_TARGET", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIN_TARGET_EXCEED_PROCEDURE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONPROD::keywordName = "GCONPROD";
+const std::string GCONPROD::GROUP::itemName = "GROUP";
+const std::string GCONPROD::CONTROL_MODE::itemName = "CONTROL_MODE";
+const std::string GCONPROD::CONTROL_MODE::defaultValue = "NONE";
+const std::string GCONPROD::OIL_TARGET::itemName = "OIL_TARGET";
+const std::string GCONPROD::WATER_TARGET::itemName = "WATER_TARGET";
+const std::string GCONPROD::GAS_TARGET::itemName = "GAS_TARGET";
+const std::string GCONPROD::LIQUID_TARGET::itemName = "LIQUID_TARGET";
+const std::string GCONPROD::EXCEED_PROC::itemName = "EXCEED_PROC";
+const std::string GCONPROD::EXCEED_PROC::defaultValue = "NONE";
+const std::string GCONPROD::RESPOND_TO_PARENT::itemName = "RESPOND_TO_PARENT";
+const std::string GCONPROD::RESPOND_TO_PARENT::defaultValue = "YES";
+const std::string GCONPROD::GUIDE_RATE::itemName = "GUIDE_RATE";
+const std::string GCONPROD::GUIDE_RATE_DEF::itemName = "GUIDE_RATE_DEF";
+const std::string GCONPROD::WATER_EXCEED_PROCEDURE::itemName = "WATER_EXCEED_PROCEDURE";
+const std::string GCONPROD::WATER_EXCEED_PROCEDURE::defaultValue = "NONE";
+const std::string GCONPROD::GAS_EXCEED_PROCEDURE::itemName = "GAS_EXCEED_PROCEDURE";
+const std::string GCONPROD::GAS_EXCEED_PROCEDURE::defaultValue = "NONE";
+const std::string GCONPROD::LIQUID_EXCEED_PROCEDURE::itemName = "LIQUID_EXCEED_PROCEDURE";
+const std::string GCONPROD::LIQUID_EXCEED_PROCEDURE::defaultValue = "NONE";
+const std::string GCONPROD::RESERVOIR_FLUID_TARGET::itemName = "RESERVOIR_FLUID_TARGET";
+const std::string GCONPROD::RESERVOIR_VOLUME_BALANCE::itemName = "RESERVOIR_VOLUME_BALANCE";
+const std::string GCONPROD::WET_GAS_TARGET::itemName = "WET_GAS_TARGET";
+const std::string GCONPROD::CALORIFIC_TARGET::itemName = "CALORIFIC_TARGET";
+const std::string GCONPROD::SURFACE_GAS_FRACTION::itemName = "SURFACE_GAS_FRACTION";
+const std::string GCONPROD::SURFACE_WAT_FRACTION::itemName = "SURFACE_WAT_FRACTION";
+const std::string GCONPROD::LINEAR_COMBINED_TARGET::itemName = "LINEAR_COMBINED_TARGET";
+const std::string GCONPROD::LIN_TARGET_EXCEED_PROCEDURE::itemName = "LIN_TARGET_EXCEED_PROCEDURE";
+
+
+GCONSALE::GCONSALE() : ParserKeyword("GCONSALE", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONSALE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SALES_TARGET", ParserItem::itype::UDA);
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_SALES_RATE", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(100000000000000000000.000000) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_SALES_RATE", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(-100000000000000000000.000000) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_PROC", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONSALE::keywordName = "GCONSALE";
+const std::string GCONSALE::GROUP::itemName = "GROUP";
+const std::string GCONSALE::SALES_TARGET::itemName = "SALES_TARGET";
+const std::string GCONSALE::MAX_SALES_RATE::itemName = "MAX_SALES_RATE";
+const UDAValue GCONSALE::MAX_SALES_RATE::defaultValue = UDAValue(100000000000000000000.000000);
+const std::string GCONSALE::MIN_SALES_RATE::itemName = "MIN_SALES_RATE";
+const UDAValue GCONSALE::MIN_SALES_RATE::defaultValue = UDAValue(-100000000000000000000.000000);
+const std::string GCONSALE::MAX_PROC::itemName = "MAX_PROC";
+const std::string GCONSALE::MAX_PROC::defaultValue = "NONE";
+
+
+GCONSUMP::GCONSUMP() : ParserKeyword("GCONSUMP", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONSUMP");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_CONSUMP_RATE", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_IMPORT_RATE", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NETWORK_NODE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONSUMP::keywordName = "GCONSUMP";
+const std::string GCONSUMP::GROUP::itemName = "GROUP";
+const std::string GCONSUMP::GAS_CONSUMP_RATE::itemName = "GAS_CONSUMP_RATE";
+const UDAValue GCONSUMP::GAS_CONSUMP_RATE::defaultValue = UDAValue(0);
+const std::string GCONSUMP::GAS_IMPORT_RATE::itemName = "GAS_IMPORT_RATE";
+const UDAValue GCONSUMP::GAS_IMPORT_RATE::defaultValue = UDAValue(0);
+const std::string GCONSUMP::NETWORK_NODE::itemName = "NETWORK_NODE";
+
+
+GCONTOL::GCONTOL() : ParserKeyword("GCONTOL", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCONTOL");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("TOLERANCE_FRACTION", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NUPCOL_VALUE", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TOLERANCE_FRACTION_INJ", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0.001000) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_IT_INJ", ParserItem::itype::INT);
+        item.setDefault( 5 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCONTOL::keywordName = "GCONTOL";
+const std::string GCONTOL::TOLERANCE_FRACTION::itemName = "TOLERANCE_FRACTION";
+const std::string GCONTOL::NUPCOL_VALUE::itemName = "NUPCOL_VALUE";
+const std::string GCONTOL::TOLERANCE_FRACTION_INJ::itemName = "TOLERANCE_FRACTION_INJ";
+const std::string GCONTOL::MAX_IT_INJ::itemName = "MAX_IT_INJ";
+
+
+GCUTBACK::GCUTBACK() : ParserKeyword("GCUTBACK", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCUTBACK");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WATER_CUT_UPPER_LIM", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_OIL_UPPER_LIM", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_LIQ_UPPER_LIM", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WAT_GAS_UPPER_LIM", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RATE_CUTBACK_FACTOR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONTROL_PHASE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCUTBACK::keywordName = "GCUTBACK";
+const std::string GCUTBACK::GROUP_NAME::itemName = "GROUP_NAME";
+const std::string GCUTBACK::WATER_CUT_UPPER_LIM::itemName = "WATER_CUT_UPPER_LIM";
+const std::string GCUTBACK::GAS_OIL_UPPER_LIM::itemName = "GAS_OIL_UPPER_LIM";
+const std::string GCUTBACK::GAS_LIQ_UPPER_LIM::itemName = "GAS_LIQ_UPPER_LIM";
+const std::string GCUTBACK::WAT_GAS_UPPER_LIM::itemName = "WAT_GAS_UPPER_LIM";
+const std::string GCUTBACK::RATE_CUTBACK_FACTOR::itemName = "RATE_CUTBACK_FACTOR";
+const std::string GCUTBACK::CONTROL_PHASE::itemName = "CONTROL_PHASE";
+
+
+GCUTBACT::GCUTBACT() : ParserKeyword("GCUTBACT", KeywordSize(DOUBLE_SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GCUTBACT");
+  setDoubleRecordsKeyword(true);
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RATE_CUTBACK", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONTROL_PHASE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+  {
+     ParserRecord record;
+     {
+        ParserItem item("TRACER", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("UPPER_RATE_LIM", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LOWER_RATE_LIM", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("UPPER_CONC_LIM", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LOWER_CONC_LIM", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCUTBACT::keywordName = "GCUTBACT";
+const std::string GCUTBACT::GROUP::itemName = "GROUP";
+const std::string GCUTBACT::RATE_CUTBACK::itemName = "RATE_CUTBACK";
+const std::string GCUTBACT::CONTROL_PHASE::itemName = "CONTROL_PHASE";
+const std::string GCUTBACT::TRACER::itemName = "TRACER";
+const std::string GCUTBACT::UPPER_RATE_LIM::itemName = "UPPER_RATE_LIM";
+const std::string GCUTBACT::LOWER_RATE_LIM::itemName = "LOWER_RATE_LIM";
+const std::string GCUTBACT::UPPER_CONC_LIM::itemName = "UPPER_CONC_LIM";
+const std::string GCUTBACT::LOWER_CONC_LIM::itemName = "LOWER_CONC_LIM";
+
+
+GCVD::GCVD() : ParserKeyword("GCVD", KeywordSize("EQLDIMS", "NTEQUL", false, 0)) {
+  addValidSectionName("SOLUTION");
+  clearDeckNames();
+  addDeckName("GCVD");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("DATA", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("Length");
+        item.push_backDimension("GasSurfaceVolume/Length*Length*Length");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GCVD::keywordName = "GCVD";
+const std::string GCVD::DATA::itemName = "DATA";
+
+
+GDCQ::GDCQ() : ParserKeyword("GDCQ", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GDCQ");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("INIT_DCQ", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DCQ_TYPE", ParserItem::itype::STRING);
+        item.setDefault( std::string("VAR") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GDCQ::keywordName = "GDCQ";
+const std::string GDCQ::GROUP_NAME::itemName = "GROUP_NAME";
+const std::string GDCQ::INIT_DCQ::itemName = "INIT_DCQ";
+const std::string GDCQ::DCQ_TYPE::itemName = "DCQ_TYPE";
+const std::string GDCQ::DCQ_TYPE::defaultValue = "VAR";
+
+
+GDCQECON::GDCQECON() : ParserKeyword("GDCQECON", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GDCQECON");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_DCQ", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GDCQECON::keywordName = "GDCQECON";
+const std::string GDCQECON::GROUP_NAME::itemName = "GROUP_NAME";
+const std::string GDCQECON::MIN_DCQ::itemName = "MIN_DCQ";
+
+
+GDFILE::GDFILE() : ParserKeyword("GDFILE", KeywordSize(1, false)) {
+  addValidSectionName("GRID");
+  setProhibitedKeywords({
+    "COORD",
+    "ZCORN",
+  });
+  clearDeckNames();
+  addDeckName("GDFILE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("filename", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("formatted", ParserItem::itype::STRING);
+        item.setDefault( std::string("U") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GDFILE::keywordName = "GDFILE";
+const std::string GDFILE::filename::itemName = "filename";
+const std::string GDFILE::formatted::itemName = "formatted";
+const std::string GDFILE::formatted::defaultValue = "U";
+
+
+GDIMS::GDIMS() : ParserKeyword("GDIMS", KeywordSize(1, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GDIMS");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MAX_NUM_GRAD_PARAMS", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GDIMS::keywordName = "GDIMS";
+const std::string GDIMS::MAX_NUM_GRAD_PARAMS::itemName = "MAX_NUM_GRAD_PARAMS";
+
+
+GDORIENT::GDORIENT() : ParserKeyword("GDORIENT", KeywordSize(1, false)) {
+  addValidSectionName("GRID");
+  clearDeckNames();
+  addDeckName("GDORIENT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("I", ParserItem::itype::STRING);
+        item.setDefault( std::string("INC") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("J", ParserItem::itype::STRING);
+        item.setDefault( std::string("INC") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("K", ParserItem::itype::STRING);
+        item.setDefault( std::string("INC") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("Z", ParserItem::itype::STRING);
+        item.setDefault( std::string("DOWN") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("HAND", ParserItem::itype::STRING);
+        item.setDefault( std::string("RIGHT") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GDORIENT::keywordName = "GDORIENT";
+const std::string GDORIENT::I::itemName = "I";
+const std::string GDORIENT::I::defaultValue = "INC";
+const std::string GDORIENT::J::itemName = "J";
+const std::string GDORIENT::J::defaultValue = "INC";
+const std::string GDORIENT::K::itemName = "K";
+const std::string GDORIENT::K::defaultValue = "INC";
+const std::string GDORIENT::Z::itemName = "Z";
+const std::string GDORIENT::Z::defaultValue = "DOWN";
+const std::string GDORIENT::HAND::itemName = "HAND";
+const std::string GDORIENT::HAND::defaultValue = "RIGHT";
+
+
+GDRILPOT::GDRILPOT() : ParserKeyword("GDRILPOT", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GDRILPOT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("QNTY_TYPE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_POTENTIAL_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GDRILPOT::keywordName = "GDRILPOT";
+const std::string GDRILPOT::GROUP_NAME::itemName = "GROUP_NAME";
+const std::string GDRILPOT::QNTY_TYPE::itemName = "QNTY_TYPE";
+const std::string GDRILPOT::MIN_POTENTIAL_RATE::itemName = "MIN_POTENTIAL_RATE";
+
+
+GECON::GECON() : ParserKeyword("GECON", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GECON");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_OIL_RATE", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("LiquidSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_GAS_RATE", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_WCT", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_GOR", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_WATER_GAS_RATIO", ParserItem::itype::UDA);
+        item.setDefault( UDAValue(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WORKOVER", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("END_RUN", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_OPEN_WELLS", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GECON::keywordName = "GECON";
+const std::string GECON::GROUP::itemName = "GROUP";
+const std::string GECON::MIN_OIL_RATE::itemName = "MIN_OIL_RATE";
+const UDAValue GECON::MIN_OIL_RATE::defaultValue = UDAValue(0);
+const std::string GECON::MIN_GAS_RATE::itemName = "MIN_GAS_RATE";
+const UDAValue GECON::MIN_GAS_RATE::defaultValue = UDAValue(0);
+const std::string GECON::MAX_WCT::itemName = "MAX_WCT";
+const UDAValue GECON::MAX_WCT::defaultValue = UDAValue(0);
+const std::string GECON::MAX_GOR::itemName = "MAX_GOR";
+const UDAValue GECON::MAX_GOR::defaultValue = UDAValue(0);
+const std::string GECON::MAX_WATER_GAS_RATIO::itemName = "MAX_WATER_GAS_RATIO";
+const UDAValue GECON::MAX_WATER_GAS_RATIO::defaultValue = UDAValue(0);
+const std::string GECON::WORKOVER::itemName = "WORKOVER";
+const std::string GECON::WORKOVER::defaultValue = "NONE";
+const std::string GECON::END_RUN::itemName = "END_RUN";
+const std::string GECON::END_RUN::defaultValue = "NO";
+const std::string GECON::MAX_OPEN_WELLS::itemName = "MAX_OPEN_WELLS";
+
+
+GECONT::GECONT() : ParserKeyword("GECONT", KeywordSize(DOUBLE_SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GECONT");
+  setDoubleRecordsKeyword(true);
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROCEDURE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("END_RUN", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_OPEN_WELLS", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+  {
+     ParserRecord record;
+     {
+        ParserItem item("TRACER", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_TOTAL_TRACER_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_TOTAL_TRACER_CONC", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_FREE_TRACER_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_FREE_TRACER_CONC", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_SOL_TRACER_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_SOL_TRACER_CONC", ParserItem::itype::DOUBLE);
+        item.setDefault( double(99999999999999996973312221251036165947450327545502362648241750950346848435554075534196338404706251868027512415973882408182135734368278484639385041047239877871023591066789981811181813306167128854888448.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GECONT::keywordName = "GECONT";
+const std::string GECONT::GROUP::itemName = "GROUP";
+const std::string GECONT::PROCEDURE::itemName = "PROCEDURE";
+const std::string GECONT::PROCEDURE::defaultValue = "NONE";
+const std::string GECONT::END_RUN::itemName = "END_RUN";
+const std::string GECONT::END_RUN::defaultValue = "NO";
+const std::string GECONT::MAX_OPEN_WELLS::itemName = "MAX_OPEN_WELLS";
+const std::string GECONT::TRACER::itemName = "TRACER";
+const std::string GECONT::MAX_TOTAL_TRACER_RATE::itemName = "MAX_TOTAL_TRACER_RATE";
+const std::string GECONT::MAX_TOTAL_TRACER_CONC::itemName = "MAX_TOTAL_TRACER_CONC";
+const std::string GECONT::MAX_FREE_TRACER_RATE::itemName = "MAX_FREE_TRACER_RATE";
+const std::string GECONT::MAX_FREE_TRACER_CONC::itemName = "MAX_FREE_TRACER_CONC";
+const std::string GECONT::MAX_SOL_TRACER_RATE::itemName = "MAX_SOL_TRACER_RATE";
+const std::string GECONT::MAX_SOL_TRACER_CONC::itemName = "MAX_SOL_TRACER_CONC";
+
+
+GEFAC::GEFAC() : ParserKeyword("GEFAC", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GEFAC");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("EFFICIENCY_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1.000000) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TRANSFER_EXT_NET", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GEFAC::keywordName = "GEFAC";
+const std::string GEFAC::GROUP::itemName = "GROUP";
+const std::string GEFAC::EFFICIENCY_FACTOR::itemName = "EFFICIENCY_FACTOR";
+const std::string GEFAC::TRANSFER_EXT_NET::itemName = "TRANSFER_EXT_NET";
+const std::string GEFAC::TRANSFER_EXT_NET::defaultValue = "YES";
+
+
+GETDATA::GETDATA() : ParserKeyword("GETDATA", KeywordSize(1, false)) {
+  addValidSectionName("REGIONS");
+  addValidSectionName("PROPS");
+  addValidSectionName("SOLUTION");
+  addValidSectionName("EDIT");
+  addValidSectionName("GRID");
+  clearDeckNames();
+  addDeckName("GETDATA");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("FILENAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FORMATTED", ParserItem::itype::STRING);
+        item.setDefault( std::string("UNFORMATTED") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ZNAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ZALT", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GETDATA::keywordName = "GETDATA";
+const std::string GETDATA::FILENAME::itemName = "FILENAME";
+const std::string GETDATA::FORMATTED::itemName = "FORMATTED";
+const std::string GETDATA::FORMATTED::defaultValue = "UNFORMATTED";
+const std::string GETDATA::ZNAME::itemName = "ZNAME";
+const std::string GETDATA::ZALT::itemName = "ZALT";
+
+
+GETGLOB::GETGLOB() : ParserKeyword("GETGLOB", KeywordSize(0, false)) {
+  addValidSectionName("SOLUTION");
+  clearDeckNames();
+  addDeckName("GETGLOB");
+}
+const std::string GETGLOB::keywordName = "GETGLOB";
+
+
+GI::GI() : ParserKeyword("GI", KeywordSize(1, false)) {
+  addValidSectionName("SOLUTION");
+  clearDeckNames();
+  addDeckName("GI");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("data", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        record.addDataItem(item);
+     }
+     addDataRecord( record );
+  }
+}
+const std::string GI::keywordName = "GI";
+const std::string GI::data::itemName = "data";
+
+
+GIALL::GIALL() : ParserKeyword("GIALL", KeywordSize("TABDIMS", "NTPVT", false, 0)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GIALL");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("PRESSURE", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TABLE", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("1");
+        item.push_backDimension("1");
+        item.push_backDimension("1");
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GIALL::keywordName = "GIALL";
+const std::string GIALL::PRESSURE::itemName = "PRESSURE";
+const std::string GIALL::TABLE::itemName = "TABLE";
+
+
+GIMODEL::GIMODEL() : ParserKeyword("GIMODEL", KeywordSize(0, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GIMODEL");
+}
+const std::string GIMODEL::keywordName = "GIMODEL";
+
+
+GINODE::GINODE() : ParserKeyword("GINODE", KeywordSize("TABDIMS", "NTPVT", false, 0)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GINODE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("DATA", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GINODE::keywordName = "GINODE";
+const std::string GINODE::DATA::itemName = "DATA";
+
+
+GLIFTLIM::GLIFTLIM() : ParserKeyword("GLIFTLIM", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GLIFTLIM");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_LIFT_CAPACITY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_NUM_WELL", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GLIFTLIM::keywordName = "GLIFTLIM";
+const std::string GLIFTLIM::GROUP_NAME::itemName = "GROUP_NAME";
+const std::string GLIFTLIM::MAX_LIFT_CAPACITY::itemName = "MAX_LIFT_CAPACITY";
+const std::string GLIFTLIM::MAX_NUM_WELL::itemName = "MAX_NUM_WELL";
+
+
+GLIFTOPT::GLIFTOPT() : ParserKeyword("GLIFTOPT", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  setRequiredKeywords({
+    "LIFTOPT",
+  });
+  clearDeckNames();
+  addDeckName("GLIFTOPT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_LIFT_GAS_SUPPLY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(-100000000000000000000.000000) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_TOTAL_GAS_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(-100000000000000000000.000000) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GLIFTOPT::keywordName = "GLIFTOPT";
+const std::string GLIFTOPT::GROUP_NAME::itemName = "GROUP_NAME";
+const std::string GLIFTOPT::MAX_LIFT_GAS_SUPPLY::itemName = "MAX_LIFT_GAS_SUPPLY";
+const std::string GLIFTOPT::MAX_TOTAL_GAS_RATE::itemName = "MAX_TOTAL_GAS_RATE";
+
+
+GMWSET::GMWSET() : ParserKeyword("GMWSET", KeywordSize(0, false)) {
+  addValidSectionName("SUMMARY");
+  clearDeckNames();
+  addDeckName("GMWSET");
+}
+const std::string GMWSET::keywordName = "GMWSET";
+
+
+GNETDP::GNETDP() : ParserKeyword("GNETDP", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GNETDP");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("FIXED_PRESSURE_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PHASE_TYPE", ParserItem::itype::STRING);
+        item.setDefault( std::string("GA") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_RATE_TRIGGER", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_RATE_TRIGGER", ParserItem::itype::DOUBLE);
+        item.setDefault( double(100000000000000000000.000000) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PRESSURE_INCR_SUBTRACT", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PRESSURE_INCR_ADD", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_ALLOW_PRESSURE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_ALLOW_PRESSURE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(100000000000000000000.000000) );
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GNETDP::keywordName = "GNETDP";
+const std::string GNETDP::FIXED_PRESSURE_GROUP::itemName = "FIXED_PRESSURE_GROUP";
+const std::string GNETDP::PHASE_TYPE::itemName = "PHASE_TYPE";
+const std::string GNETDP::PHASE_TYPE::defaultValue = "GA";
+const std::string GNETDP::MIN_RATE_TRIGGER::itemName = "MIN_RATE_TRIGGER";
+const std::string GNETDP::MAX_RATE_TRIGGER::itemName = "MAX_RATE_TRIGGER";
+const std::string GNETDP::PRESSURE_INCR_SUBTRACT::itemName = "PRESSURE_INCR_SUBTRACT";
+const std::string GNETDP::PRESSURE_INCR_ADD::itemName = "PRESSURE_INCR_ADD";
+const std::string GNETDP::MIN_ALLOW_PRESSURE::itemName = "MIN_ALLOW_PRESSURE";
+const std::string GNETDP::MAX_ALLOW_PRESSURE::itemName = "MAX_ALLOW_PRESSURE";
+
+
+GNETINJE::GNETINJE() : ParserKeyword("GNETINJE", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GNETINJE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PHASE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PRESSURE", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("VFP_TABLE", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GNETINJE::keywordName = "GNETINJE";
+const std::string GNETINJE::GROUP::itemName = "GROUP";
+const std::string GNETINJE::PHASE::itemName = "PHASE";
+const std::string GNETINJE::PRESSURE::itemName = "PRESSURE";
+const std::string GNETINJE::VFP_TABLE::itemName = "VFP_TABLE";
+
+
+GNETPUMP::GNETPUMP() : ParserKeyword("GNETPUMP", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GNETPUMP");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROD_RATE_SWITCH", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PHASE_TYPE", ParserItem::itype::STRING);
+        item.setDefault( std::string("OIL") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NEW_VFT_TABLE_NUM", ParserItem::itype::INT);
+        item.setDefault( 4 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NEW_ARTIFICIAL_LIFT_QNTY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NEW_GAS_CONUMPTION_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("GasSurfaceVolume/Time");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GNETPUMP::keywordName = "GNETPUMP";
+const std::string GNETPUMP::GROUP::itemName = "GROUP";
+const std::string GNETPUMP::PROD_RATE_SWITCH::itemName = "PROD_RATE_SWITCH";
+const std::string GNETPUMP::PHASE_TYPE::itemName = "PHASE_TYPE";
+const std::string GNETPUMP::PHASE_TYPE::defaultValue = "OIL";
+const std::string GNETPUMP::NEW_VFT_TABLE_NUM::itemName = "NEW_VFT_TABLE_NUM";
+const std::string GNETPUMP::NEW_ARTIFICIAL_LIFT_QNTY::itemName = "NEW_ARTIFICIAL_LIFT_QNTY";
+const std::string GNETPUMP::NEW_GAS_CONUMPTION_RATE::itemName = "NEW_GAS_CONUMPTION_RATE";
+
+
+GPMAINT::GPMAINT() : ParserKeyword("GPMAINT", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GPMAINT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FLOW_TARGET", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("REGION", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FIP_FAMILY", ParserItem::itype::STRING);
+        item.setDefault( std::string("FIPNUM") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PRESSURE_TARGET", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROP_CONSTANT", ParserItem::itype::DOUBLE);
+        item.push_backDimension("ReservoirVolume/Time*Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TIME_CONSTANT", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Time");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GPMAINT::keywordName = "GPMAINT";
+const std::string GPMAINT::GROUP::itemName = "GROUP";
+const std::string GPMAINT::FLOW_TARGET::itemName = "FLOW_TARGET";
+const std::string GPMAINT::REGION::itemName = "REGION";
+const std::string GPMAINT::FIP_FAMILY::itemName = "FIP_FAMILY";
+const std::string GPMAINT::FIP_FAMILY::defaultValue = "FIPNUM";
+const std::string GPMAINT::PRESSURE_TARGET::itemName = "PRESSURE_TARGET";
+const std::string GPMAINT::PROP_CONSTANT::itemName = "PROP_CONSTANT";
+const std::string GPMAINT::TIME_CONSTANT::itemName = "TIME_CONSTANT";
+
+
+GRADGRUP::GRADGRUP() : ParserKeyword("GRADGRUP", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRADGRUP");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MNENONIC", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRADGRUP::keywordName = "GRADGRUP";
+const std::string GRADGRUP::MNENONIC::itemName = "MNENONIC";
+
+
+GRADRESV::GRADRESV() : ParserKeyword("GRADRESV", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRADRESV");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MNENONIC", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRADRESV::keywordName = "GRADRESV";
+const std::string GRADRESV::MNENONIC::itemName = "MNENONIC";
+
+
+GRADRFT::GRADRFT() : ParserKeyword("GRADRFT", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRADRFT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MNENONIC", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRADRFT::keywordName = "GRADRFT";
+const std::string GRADRFT::MNENONIC::itemName = "MNENONIC";
+
+
+GRADWELL::GRADWELL() : ParserKeyword("GRADWELL", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRADWELL");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MNENONIC", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRADWELL::keywordName = "GRADWELL";
+const std::string GRADWELL::MNENONIC::itemName = "MNENONIC";
+
+
+GRAVCONS::GRAVCONS() : ParserKeyword("GRAVCONS", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GRAVCONS");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MNENONIC", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length*Pressure/Mass");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRAVCONS::keywordName = "GRAVCONS";
+const std::string GRAVCONS::MNENONIC::itemName = "MNENONIC";
+
+
+GRAVDR::GRAVDR() : ParserKeyword("GRAVDR", KeywordSize(0, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GRAVDR");
+}
+const std::string GRAVDR::keywordName = "GRAVDR";
+
+
+GRAVDRB::GRAVDRB() : ParserKeyword("GRAVDRB", KeywordSize(0, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GRAVDRB");
+}
+const std::string GRAVDRB::keywordName = "GRAVDRB";
+
+
+GRAVDRM::GRAVDRM() : ParserKeyword("GRAVDRM", KeywordSize(1, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GRAVDRM");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("ALLOW_RE_INFL", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRAVDRM::keywordName = "GRAVDRM";
+const std::string GRAVDRM::ALLOW_RE_INFL::itemName = "ALLOW_RE_INFL";
+const std::string GRAVDRM::ALLOW_RE_INFL::defaultValue = "YES";
+
+
+GRAVITY::GRAVITY() : ParserKeyword("GRAVITY", KeywordSize("TABDIMS", "NTPVT", false, 0)) {
+  addValidSectionName("PROPS");
+  clearDeckNames();
+  addDeckName("GRAVITY");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("API_GRAVITY", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WATER_SP_GRAVITY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_SP_GRAVITY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0.777300) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRAVITY::keywordName = "GRAVITY";
+const std::string GRAVITY::API_GRAVITY::itemName = "API_GRAVITY";
+const std::string GRAVITY::WATER_SP_GRAVITY::itemName = "WATER_SP_GRAVITY";
+const std::string GRAVITY::GAS_SP_GRAVITY::itemName = "GAS_SP_GRAVITY";
+
+
+GRDREACH::GRDREACH() : ParserKeyword("GRDREACH", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRDREACH");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("RIVER", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+  {
+     ParserRecord record;
+     {
+        ParserItem item("I", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("J", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("K", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("BRANCH_NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DISTANCE_TO_START", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DISTANCE_TO_END", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RCH_CONNECT_TO", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PENETRATION_DIRECTION", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GRID_BLOCK_COORD", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONTACT_AREA", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length*Length");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TABLE_NUM", ParserItem::itype::INT);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PRODUCTIVITY_INDEX", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Length/Time*Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LENGTH_DEAD_GRID_BLOCK", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Length");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OPTION_CONNECT_REACH", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ADJUSTMENT_REACH", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("REMOVE_CAP_PRESSURE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("INFILTR_EQ", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("HYDRAULIC_CONDUCTIVITY", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Length/Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RIVER_BED_THICKNESS", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Length");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRDREACH::keywordName = "GRDREACH";
+const std::string GRDREACH::RIVER::itemName = "RIVER";
+const std::string GRDREACH::I::itemName = "I";
+const std::string GRDREACH::J::itemName = "J";
+const std::string GRDREACH::K::itemName = "K";
+const std::string GRDREACH::BRANCH_NAME::itemName = "BRANCH_NAME";
+const std::string GRDREACH::DISTANCE_TO_START::itemName = "DISTANCE_TO_START";
+const std::string GRDREACH::DISTANCE_TO_END::itemName = "DISTANCE_TO_END";
+const std::string GRDREACH::RCH_CONNECT_TO::itemName = "RCH_CONNECT_TO";
+const std::string GRDREACH::PENETRATION_DIRECTION::itemName = "PENETRATION_DIRECTION";
+const std::string GRDREACH::GRID_BLOCK_COORD::itemName = "GRID_BLOCK_COORD";
+const std::string GRDREACH::CONTACT_AREA::itemName = "CONTACT_AREA";
+const std::string GRDREACH::TABLE_NUM::itemName = "TABLE_NUM";
+const std::string GRDREACH::PRODUCTIVITY_INDEX::itemName = "PRODUCTIVITY_INDEX";
+const std::string GRDREACH::LENGTH_DEAD_GRID_BLOCK::itemName = "LENGTH_DEAD_GRID_BLOCK";
+const std::string GRDREACH::OPTION_CONNECT_REACH::itemName = "OPTION_CONNECT_REACH";
+const std::string GRDREACH::ADJUSTMENT_REACH::itemName = "ADJUSTMENT_REACH";
+const std::string GRDREACH::REMOVE_CAP_PRESSURE::itemName = "REMOVE_CAP_PRESSURE";
+const std::string GRDREACH::REMOVE_CAP_PRESSURE::defaultValue = "NO";
+const std::string GRDREACH::INFILTR_EQ::itemName = "INFILTR_EQ";
+const std::string GRDREACH::HYDRAULIC_CONDUCTIVITY::itemName = "HYDRAULIC_CONDUCTIVITY";
+const std::string GRDREACH::RIVER_BED_THICKNESS::itemName = "RIVER_BED_THICKNESS";
+
+
+GRID::GRID() : ParserKeyword("GRID", KeywordSize(0, false)) {
+  clearDeckNames();
+  addDeckName("GRID");
+}
+const std::string GRID::keywordName = "GRID";
+
+
+GRIDFILE::GRIDFILE() : ParserKeyword("GRIDFILE", KeywordSize(1, false)) {
+  addValidSectionName("GRID");
+  clearDeckNames();
+  addDeckName("GRIDFILE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GRID", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("EGRID", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRIDFILE::keywordName = "GRIDFILE";
+const std::string GRIDFILE::GRID::itemName = "GRID";
+const std::string GRIDFILE::EGRID::itemName = "EGRID";
+
+
+GRIDOPTS::GRIDOPTS() : ParserKeyword("GRIDOPTS", KeywordSize(1, false)) {
+  addValidSectionName("RUNSPEC");
+  clearDeckNames();
+  addDeckName("GRIDOPTS");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("TRANMULT", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NRMULT", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NRPINC", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRIDOPTS::keywordName = "GRIDOPTS";
+const std::string GRIDOPTS::TRANMULT::itemName = "TRANMULT";
+const std::string GRIDOPTS::TRANMULT::defaultValue = "NO";
+const std::string GRIDOPTS::NRMULT::itemName = "NRMULT";
+const std::string GRIDOPTS::NRPINC::itemName = "NRPINC";
+
+
+GRIDUNIT::GRIDUNIT() : ParserKeyword("GRIDUNIT", KeywordSize(1, false)) {
+  addValidSectionName("GRID");
+  clearDeckNames();
+  addDeckName("GRIDUNIT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("LengthUnit", ParserItem::itype::STRING);
+        item.setDefault( std::string("METRES") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRIDUNIT::keywordName = "GRIDUNIT";
+const std::string GRIDUNIT::LengthUnit::itemName = "LengthUnit";
+const std::string GRIDUNIT::LengthUnit::defaultValue = "METRES";
+const std::string GRIDUNIT::MAP::itemName = "MAP";
+
+
+GROUP_PROBE::GROUP_PROBE() : ParserKeyword("GROUP_PROBE", KeywordSize(1, false)) {
+  addValidSectionName("SUMMARY");
+  clearDeckNames();
+  addDeckName("GTITALK");
+  addDeckName("GTPRALK");
+  addDeckName("GTPTSUR");
+  addDeckName("GNIT");
+  addDeckName("GNPR");
+  addDeckName("GCIC");
+  addDeckName("GCPT");
+  addDeckName("GCPR");
+  addDeckName("GWPRNB");
+  addDeckName("GOPRNB");
+  addDeckName("GPRB");
+  addDeckName("GPRW");
+  addDeckName("GEDCQ");
+  addDeckName("GEST");
+  addDeckName("GESR");
+  addDeckName("GEIR");
+  addDeckName("GGPRNBFP");
+  addDeckName("GPRFP");
+  addDeckName("GPRDC");
+  addDeckName("GEIT");
+  addDeckName("GPR");
+  addDeckName("GTPRFOA");
+  addDeckName("GMIR");
+  addDeckName("GMPT");
+  addDeckName("GMPR");
+  addDeckName("GMCPL");
+  addDeckName("GTIRCAT");
+  addDeckName("GTITANI");
+  addDeckName("GTPRANI");
+  addDeckName("GSIR");
+  addDeckName("GSPR");
+  addDeckName("GWSRL");
+  addDeckName("GTIRANI");
+  addDeckName("GWSPR");
+  addDeckName("GOSTP");
+  addDeckName("GSPT");
+  addDeckName("GOSRU");
+  addDeckName("GWSSP");
+  addDeckName("GOSRL");
+  addDeckName("GTPRHEA");
+  addDeckName("GOSPR");
+  addDeckName("GGSTP");
+  addDeckName("GMIT");
+  addDeckName("GWSTP");
+  addDeckName("GGSRU");
+  addDeckName("GGSPR");
+  addDeckName("GEPT");
+  addDeckName("GEPR");
+  addDeckName("GGDCQ");
+  addDeckName("GMWWO");
+  addDeckName("GTPTHEA");
+  addDeckName("GMWDT");
+  addDeckName("GMWDR");
+  addDeckName("GAPI");
+  addDeckName("GMWIV");
+  addDeckName("GMWIG");
+  addDeckName("GPRBW");
+  addDeckName("GMWIU");
+  addDeckName("GGPP2");
+  addDeckName("GTITHEA");
+  addDeckName("GOSSP");
+  addDeckName("GGIRL");
+  addDeckName("GGIRT");
+  addDeckName("GOPT");
+  addDeckName("GGIR");
+  addDeckName("GOGRH");
+  addDeckName("GLPRT");
+  addDeckName("GGPT");
+  addDeckName("GALQ");
+  addDeckName("GWPRT");
+  addDeckName("GSIT");
+  addDeckName("GMWIN");
+  addDeckName("GTIRALK");
+  addDeckName("GOIT");
+  addDeckName("GGPRL");
+  addDeckName("GWPIR");
+  addDeckName("GOIRT");
+  addDeckName("GWIGR");
+  addDeckName("GSPC");
+  addDeckName("GWPI2");
+  addDeckName("GWPP2");
+  addDeckName("GGPTS");
+  addDeckName("GWIRL");
+  addDeckName("GOPP2");
+  addDeckName("GMWWT");
+  addDeckName("GWITH");
+  addDeckName("GGPR");
+  addDeckName("GTITSUR");
+  addDeckName("GGPRF");
+  addDeckName("GGDC");
+  addDeckName("GGLRH");
+  addDeckName("GOPI");
+  addDeckName("GOPTF");
+  addDeckName("GFGR");
+  addDeckName("GEFF");
+  addDeckName("GOPTH");
+  addDeckName("GTPCHEA");
+  addDeckName("GOPRS");
+  addDeckName("GMWPS");
+  addDeckName("GWPTH");
+  addDeckName("GNPT");
+  addDeckName("GGCT");
+  addDeckName("GMWIA");
+  addDeckName("GLPR");
+  addDeckName("GWPI");
+  addDeckName("GJPTH");
+  addDeckName("GWPR");
+  addDeckName("GOPTS");
+  addDeckName("GWPGR");
+  addDeckName("GWIRNB");
+  addDeckName("GEDC");
+  addDeckName("GGPPS2");
+  addDeckName("GOPRH");
+  addDeckName("GGPRS");
+  addDeckName("GWPRH");
+  addDeckName("GPRG");
+  addDeckName("GOIRL");
+  addDeckName("GPRBG");
+  addDeckName("GOIRH");
+  addDeckName("GMWPV");
+  addDeckName("GWIRT");
+  addDeckName("GMWPP");
+  addDeckName("GGIRNB");
+  addDeckName("GOPI2");
+  addDeckName("GMWPA");
+  addDeckName("GSGR");
+  addDeckName("GTIRFOA");
+  addDeckName("GTICHEA");
+  addDeckName("GOPRL");
+  addDeckName("GGITH");
+  addDeckName("GOITH");
+  addDeckName("GNIR");
+  addDeckName("GVIR");
+  addDeckName("GOIGR");
+  addDeckName("GOPP");
+  addDeckName("GGCV");
+  addDeckName("GSIC");
+  addDeckName("GGIRH");
+  addDeckName("GTPTALK");
+  addDeckName("GGPP");
+  addDeckName("GGPRT");
+  addDeckName("GWIT");
+  addDeckName("GGSSP");
+  addDeckName("GOIR");
+  addDeckName("GWPRL");
+  addDeckName("GGOR");
+  addDeckName("GCIR");
+  addDeckName("GWPP");
+  addDeckName("GWIR");
+  addDeckName("GGPPS");
+  addDeckName("GGPPF");
+  addDeckName("GTITFOA");
+  addDeckName("GMWIP");
+  addDeckName("GGST");
+  addDeckName("GTPTFOA");
+  addDeckName("GWGR");
+  addDeckName("GGPPF2");
+  addDeckName("GLPRNB");
+  addDeckName("GGPI");
+  addDeckName("GGPGR");
+  addDeckName("GFMF");
+  addDeckName("GTPRCAT");
+  addDeckName("GGIGR");
+  addDeckName("GTIRSUR");
+  addDeckName("GOPR");
+  addDeckName("GGSR");
+  addDeckName("GTITCAT");
+  addDeckName("GGPTF");
+  addDeckName("GGPI2");
+  addDeckName("GSMF");
+  addDeckName("GWGRH");
+  addDeckName("GTPTCAT");
+  addDeckName("GMWIT");
+  addDeckName("GFGT");
+  addDeckName("GGLR");
+  addDeckName("GGCR");
+  addDeckName("GVIT");
+  addDeckName("GTPTANI");
+  addDeckName("GJPR");
+  addDeckName("GGPRH");
+  addDeckName("GGIMR");
+  addDeckName("GGIMT");
+  addDeckName("GOPGR");
+  addDeckName("GGLIR");
+  addDeckName("GCIT");
+  addDeckName("GGQ");
+  addDeckName("GLPRL");
+  addDeckName("GLPT");
+  addDeckName("GMWIS");
+  addDeckName("GLPTH");
+  addDeckName("GJPRH");
+  addDeckName("GJPRL");
+  addDeckName("GTIRHEA");
+  addDeckName("GJPT");
+  addDeckName("GVPR");
+  addDeckName("GMWPT");
+  addDeckName("GVPRT");
+  addDeckName("GCPC");
+  addDeckName("GGSRL");
+  addDeckName("GGPTH");
+  addDeckName("GMCTG");
+  addDeckName("GGIT");
+  addDeckName("GVPRL");
+  addDeckName("GWSRU");
+  addDeckName("GWPT");
+  addDeckName("GOPRF");
+  addDeckName("GVPT");
+  addDeckName("GVPGR");
+  addDeckName("GTPRSUR");
+  addDeckName("GVIRT");
+  addDeckName("GVIRL");
+  addDeckName("GSGT");
+  addDeckName("GWCT");
+  addDeckName("GLPRH");
+  addDeckName("GWCTH");
+  addDeckName("GGORH");
+  addDeckName("GGPRNB");
+  addDeckName("GOGR");
+  addDeckName("GMCTP");
+  addDeckName("GMCTW");
+  addDeckName("GMWPR");
+  addDeckName("GMWPU");
+  addDeckName("GWIRH");
+  addDeckName("GOPRT");
+  addDeckName("GMWPG");
+  addDeckName("GJPRT");
+  addDeckName("GMWPO");
+  addDeckName("GMWPL");
+  setMatchRegex("GU.+|GTPR.+|GTPT.+|GTPC.+|GTIR.+|GTIT.+|GTIC.+|GTIRF.+|GTIRS.+|GTPRF.+|GTPRS.+|GTITF.+|GTITS.+|GTPTF.+|GTPTS.+|GTICF.+|GTICS.+|GTPCF.+|GTPCS.+");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUPS", ParserItem::itype::STRING);
+        item.setSizeType(ParserItem::item_size::ALL);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GROUP_PROBE::keywordName = "GROUP_PROBE";
+const std::string GROUP_PROBE::GROUPS::itemName = "GROUPS";
+
+
+GROUP_PROBE_OPM::GROUP_PROBE_OPM() : ParserKeyword("GROUP_PROBE_OPM", KeywordSize(1, false)) {
+  addValidSectionName("SUMMARY");
+  clearDeckNames();
+  addDeckName("GGMIT");
+  addDeckName("GGMIR");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUPS", ParserItem::itype::STRING);
+        item.setSizeType(ParserItem::item_size::ALL);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GROUP_PROBE_OPM::keywordName = "GROUP_PROBE_OPM";
+const std::string GROUP_PROBE_OPM::GROUPS::itemName = "GROUPS";
+
+
+GRUPMAST::GRUPMAST() : ParserKeyword("GRUPMAST", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRUPMAST");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MASTER_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SLAVE_RESERVOIR", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SLAVE_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIMITING_FRACTION", ParserItem::itype::DOUBLE);
+        item.setDefault( double(100000000000000000000.000000) );
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRUPMAST::keywordName = "GRUPMAST";
+const std::string GRUPMAST::MASTER_GROUP::itemName = "MASTER_GROUP";
+const std::string GRUPMAST::SLAVE_RESERVOIR::itemName = "SLAVE_RESERVOIR";
+const std::string GRUPMAST::SLAVE_GROUP::itemName = "SLAVE_GROUP";
+const std::string GRUPMAST::LIMITING_FRACTION::itemName = "LIMITING_FRACTION";
+
+
+GRUPNET::GRUPNET() : ParserKeyword("GRUPNET", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  addValidSectionName("SPECIAL");
+  setProhibitedKeywords({
+    "NETWORK",
+    "BRANPROP",
+    "NODEPROP",
+  });
+  clearDeckNames();
+  addDeckName("GRUPNET");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("NAME", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TERMINAL_PRESSURE", ParserItem::itype::DOUBLE);
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("VFP_TABLE", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ALQ", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SUB_SEA_MANIFOLD", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ADD_GAS_LIFT_GAS", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ALQ_SURFACE_DENSITY", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRUPNET::keywordName = "GRUPNET";
+const std::string GRUPNET::NAME::itemName = "NAME";
+const std::string GRUPNET::TERMINAL_PRESSURE::itemName = "TERMINAL_PRESSURE";
+const std::string GRUPNET::VFP_TABLE::itemName = "VFP_TABLE";
+const std::string GRUPNET::ALQ::itemName = "ALQ";
+const std::string GRUPNET::SUB_SEA_MANIFOLD::itemName = "SUB_SEA_MANIFOLD";
+const std::string GRUPNET::SUB_SEA_MANIFOLD::defaultValue = "NO";
+const std::string GRUPNET::ADD_GAS_LIFT_GAS::itemName = "ADD_GAS_LIFT_GAS";
+const std::string GRUPNET::ADD_GAS_LIFT_GAS::defaultValue = "NO";
+const std::string GRUPNET::ALQ_SURFACE_DENSITY::itemName = "ALQ_SURFACE_DENSITY";
+const std::string GRUPNET::ALQ_SURFACE_DENSITY::defaultValue = "NONE";
+
+
+GRUPRIG::GRUPRIG() : ParserKeyword("GRUPRIG", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRUPRIG");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WORKOVER_RIG_NUM", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DRILLING_RIG_NUM", ParserItem::itype::INT);
+        item.setDefault( 0 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ADD_OR_REMOVE", ParserItem::itype::STRING);
+        item.setDefault( std::string("ADD") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRUPRIG::keywordName = "GRUPRIG";
+const std::string GRUPRIG::GROUP::itemName = "GROUP";
+const std::string GRUPRIG::WORKOVER_RIG_NUM::itemName = "WORKOVER_RIG_NUM";
+const std::string GRUPRIG::DRILLING_RIG_NUM::itemName = "DRILLING_RIG_NUM";
+const std::string GRUPRIG::ADD_OR_REMOVE::itemName = "ADD_OR_REMOVE";
+const std::string GRUPRIG::ADD_OR_REMOVE::defaultValue = "ADD";
+
+
+GRUPSLAV::GRUPSLAV() : ParserKeyword("GRUPSLAV", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRUPSLAV");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("SLAVE_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MASTER_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OIL_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WAT_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("FLUID_VOL_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OIL_INJ_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WAT_INJ_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_INJ_PROD_CONSTRAINTS", ParserItem::itype::STRING);
+        item.setDefault( std::string("MAST") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRUPSLAV::keywordName = "GRUPSLAV";
+const std::string GRUPSLAV::SLAVE_GROUP::itemName = "SLAVE_GROUP";
+const std::string GRUPSLAV::MASTER_GROUP::itemName = "MASTER_GROUP";
+const std::string GRUPSLAV::OIL_PROD_CONSTRAINTS::itemName = "OIL_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::OIL_PROD_CONSTRAINTS::defaultValue = "MAST";
+const std::string GRUPSLAV::WAT_PROD_CONSTRAINTS::itemName = "WAT_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::WAT_PROD_CONSTRAINTS::defaultValue = "MAST";
+const std::string GRUPSLAV::GAS_PROD_CONSTRAINTS::itemName = "GAS_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::GAS_PROD_CONSTRAINTS::defaultValue = "MAST";
+const std::string GRUPSLAV::FLUID_VOL_PROD_CONSTRAINTS::itemName = "FLUID_VOL_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::FLUID_VOL_PROD_CONSTRAINTS::defaultValue = "MAST";
+const std::string GRUPSLAV::OIL_INJ_PROD_CONSTRAINTS::itemName = "OIL_INJ_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::OIL_INJ_PROD_CONSTRAINTS::defaultValue = "MAST";
+const std::string GRUPSLAV::WAT_INJ_PROD_CONSTRAINTS::itemName = "WAT_INJ_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::WAT_INJ_PROD_CONSTRAINTS::defaultValue = "MAST";
+const std::string GRUPSLAV::GAS_INJ_PROD_CONSTRAINTS::itemName = "GAS_INJ_PROD_CONSTRAINTS";
+const std::string GRUPSLAV::GAS_INJ_PROD_CONSTRAINTS::defaultValue = "MAST";
+
+
+GRUPTARG::GRUPTARG() : ParserKeyword("GRUPTARG", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRUPTARG");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TARGET", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NEW_VALUE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(999999999999999949387135297074018866963645011013410073083904.000000) );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRUPTARG::keywordName = "GRUPTARG";
+const std::string GRUPTARG::GROUP::itemName = "GROUP";
+const std::string GRUPTARG::TARGET::itemName = "TARGET";
+const std::string GRUPTARG::NEW_VALUE::itemName = "NEW_VALUE";
+
+
+GRUPTREE::GRUPTREE() : ParserKeyword("GRUPTREE", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GRUPTREE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("CHILD_GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PARENT_GROUP", ParserItem::itype::STRING);
+        item.setDefault( std::string("FIELD") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GRUPTREE::keywordName = "GRUPTREE";
+const std::string GRUPTREE::CHILD_GROUP::itemName = "CHILD_GROUP";
+const std::string GRUPTREE::PARENT_GROUP::itemName = "PARENT_GROUP";
+const std::string GRUPTREE::PARENT_GROUP::defaultValue = "FIELD";
+
+
+GSATINJE::GSATINJE() : ParserKeyword("GSATINJE", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GSATINJE");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PHASE", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SURF_INJ_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RES_INJ_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MEAN_CALORIFIC", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Energy/GasSurfaceVolume");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GSATINJE::keywordName = "GSATINJE";
+const std::string GSATINJE::GROUP::itemName = "GROUP";
+const std::string GSATINJE::PHASE::itemName = "PHASE";
+const std::string GSATINJE::SURF_INJ_RATE::itemName = "SURF_INJ_RATE";
+const std::string GSATINJE::RES_INJ_RATE::itemName = "RES_INJ_RATE";
+const std::string GSATINJE::MEAN_CALORIFIC::itemName = "MEAN_CALORIFIC";
+
+
+GSATPROD::GSATPROD() : ParserKeyword("GSATPROD", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GSATPROD");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("SATELLITE_GROUP_NAME_OR_GROUP_NAME_ROOT", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("OIL_PRODUCTION_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("WATER_PRODUCTION_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("GAS_PRODUCTION_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("RES_FLUID_VOL_PRODUCTION_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("LIFT_GAS_SUPPLY_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MEAN_CALORIFIC_VALUE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GSATPROD::keywordName = "GSATPROD";
+const std::string GSATPROD::SATELLITE_GROUP_NAME_OR_GROUP_NAME_ROOT::itemName = "SATELLITE_GROUP_NAME_OR_GROUP_NAME_ROOT";
+const std::string GSATPROD::OIL_PRODUCTION_RATE::itemName = "OIL_PRODUCTION_RATE";
+const std::string GSATPROD::WATER_PRODUCTION_RATE::itemName = "WATER_PRODUCTION_RATE";
+const std::string GSATPROD::GAS_PRODUCTION_RATE::itemName = "GAS_PRODUCTION_RATE";
+const std::string GSATPROD::RES_FLUID_VOL_PRODUCTION_RATE::itemName = "RES_FLUID_VOL_PRODUCTION_RATE";
+const std::string GSATPROD::LIFT_GAS_SUPPLY_RATE::itemName = "LIFT_GAS_SUPPLY_RATE";
+const std::string GSATPROD::MEAN_CALORIFIC_VALUE::itemName = "MEAN_CALORIFIC_VALUE";
+
+
+GSEPCOND::GSEPCOND() : ParserKeyword("GSEPCOND", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GSEPCOND");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SEPARATOR", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GSEPCOND::keywordName = "GSEPCOND";
+const std::string GSEPCOND::GROUP::itemName = "GROUP";
+const std::string GSEPCOND::SEPARATOR::itemName = "SEPARATOR";
+
+
+GSF::GSF() : ParserKeyword("GSF", KeywordSize("TABDIMS", "NTSFUN", false, 0)) {
+  addValidSectionName("PROPS");
+  setProhibitedKeywords({
+    "SGOF",
+    "SLGOF",
+    "SGFN",
+  });
+  clearDeckNames();
+  addDeckName("GSF");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("DATA", ParserItem::itype::DOUBLE);
+        item.setSizeType(ParserItem::item_size::ALL);
+        item.push_backDimension("1");
+        item.push_backDimension("1");
+        item.push_backDimension("Pressure");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GSF::keywordName = "GSF";
+const std::string GSF::DATA::itemName = "DATA";
+
+
+GSSCPTST::GSSCPTST() : ParserKeyword("GSSCPTST", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GSSCPTST");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONTROL_MODE", ParserItem::itype::STRING);
+        item.setDefault( std::string("GRAT") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TARGET_PROD_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TARGET_PROD_PERIOD", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAX_PROD_RATE_FLAG", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("CONV_TOLERANCE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MAT_IT", ParserItem::itype::INT);
+        item.setDefault( 6 );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SUB_GRP_CONTROL_FLAG", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GSSCPTST::keywordName = "GSSCPTST";
+const std::string GSSCPTST::GROUP::itemName = "GROUP";
+const std::string GSSCPTST::CONTROL_MODE::itemName = "CONTROL_MODE";
+const std::string GSSCPTST::CONTROL_MODE::defaultValue = "GRAT";
+const std::string GSSCPTST::TARGET_PROD_RATE::itemName = "TARGET_PROD_RATE";
+const std::string GSSCPTST::TARGET_PROD_PERIOD::itemName = "TARGET_PROD_PERIOD";
+const std::string GSSCPTST::MAX_PROD_RATE_FLAG::itemName = "MAX_PROD_RATE_FLAG";
+const std::string GSSCPTST::CONV_TOLERANCE::itemName = "CONV_TOLERANCE";
+const std::string GSSCPTST::MAT_IT::itemName = "MAT_IT";
+const std::string GSSCPTST::SUB_GRP_CONTROL_FLAG::itemName = "SUB_GRP_CONTROL_FLAG";
+
+
+GSWINGF::GSWINGF() : ParserKeyword("GSWINGF", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GSWINGF");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_JAN", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_FEB", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_MAR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_APR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_MAY", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_JUN", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_JUL", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_AUG", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_SEP", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_OCT", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_NOV", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("SWING_DEC", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_JAN", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_FEB", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_MAR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_APR", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_MAY", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_JUN", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_JUL", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_AUG", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_SEP", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_OCT", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_NOV", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("PROFILE_DEC", ParserItem::itype::DOUBLE);
+        item.push_backDimension("1");
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GSWINGF::keywordName = "GSWINGF";
+const std::string GSWINGF::GROUP::itemName = "GROUP";
+const std::string GSWINGF::SWING_JAN::itemName = "SWING_JAN";
+const std::string GSWINGF::SWING_FEB::itemName = "SWING_FEB";
+const std::string GSWINGF::SWING_MAR::itemName = "SWING_MAR";
+const std::string GSWINGF::SWING_APR::itemName = "SWING_APR";
+const std::string GSWINGF::SWING_MAY::itemName = "SWING_MAY";
+const std::string GSWINGF::SWING_JUN::itemName = "SWING_JUN";
+const std::string GSWINGF::SWING_JUL::itemName = "SWING_JUL";
+const std::string GSWINGF::SWING_AUG::itemName = "SWING_AUG";
+const std::string GSWINGF::SWING_SEP::itemName = "SWING_SEP";
+const std::string GSWINGF::SWING_OCT::itemName = "SWING_OCT";
+const std::string GSWINGF::SWING_NOV::itemName = "SWING_NOV";
+const std::string GSWINGF::SWING_DEC::itemName = "SWING_DEC";
+const std::string GSWINGF::PROFILE_JAN::itemName = "PROFILE_JAN";
+const std::string GSWINGF::PROFILE_FEB::itemName = "PROFILE_FEB";
+const std::string GSWINGF::PROFILE_MAR::itemName = "PROFILE_MAR";
+const std::string GSWINGF::PROFILE_APR::itemName = "PROFILE_APR";
+const std::string GSWINGF::PROFILE_MAY::itemName = "PROFILE_MAY";
+const std::string GSWINGF::PROFILE_JUN::itemName = "PROFILE_JUN";
+const std::string GSWINGF::PROFILE_JUL::itemName = "PROFILE_JUL";
+const std::string GSWINGF::PROFILE_AUG::itemName = "PROFILE_AUG";
+const std::string GSWINGF::PROFILE_SEP::itemName = "PROFILE_SEP";
+const std::string GSWINGF::PROFILE_OCT::itemName = "PROFILE_OCT";
+const std::string GSWINGF::PROFILE_NOV::itemName = "PROFILE_NOV";
+const std::string GSWINGF::PROFILE_DEC::itemName = "PROFILE_DEC";
+
+
+GTADD::GTADD() : ParserKeyword("GTADD", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GTADD");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TARGET", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("QUANTITY", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NUM_ADDITIONS", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GTADD::keywordName = "GTADD";
+const std::string GTADD::GROUP::itemName = "GROUP";
+const std::string GTADD::TARGET::itemName = "TARGET";
+const std::string GTADD::QUANTITY::itemName = "QUANTITY";
+const std::string GTADD::NUM_ADDITIONS::itemName = "NUM_ADDITIONS";
+
+
+GTMULT::GTMULT() : ParserKeyword("GTMULT", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GTMULT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("GROUP", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("TARGET", ParserItem::itype::STRING);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("QUANTITY", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NUM_MULT", ParserItem::itype::INT);
+        item.setDefault( 1 );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GTMULT::keywordName = "GTMULT";
+const std::string GTMULT::GROUP::itemName = "GROUP";
+const std::string GTMULT::TARGET::itemName = "TARGET";
+const std::string GTMULT::QUANTITY::itemName = "QUANTITY";
+const std::string GTMULT::NUM_MULT::itemName = "NUM_MULT";
+
+
+GUIDECAL::GUIDECAL() : ParserKeyword("GUIDECAL", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GUIDECAL");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("COEFF_A", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     {
+        ParserItem item("COEFF_B", ParserItem::itype::DOUBLE);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GUIDECAL::keywordName = "GUIDECAL";
+const std::string GUIDECAL::COEFF_A::itemName = "COEFF_A";
+const std::string GUIDECAL::COEFF_B::itemName = "COEFF_B";
+
+
+GUIDERAT::GUIDERAT() : ParserKeyword("GUIDERAT", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GUIDERAT");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("MIN_CALC_TIME", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        item.push_backDimension("Time");
+        record.addItem(item);
+     }
+     {
+        ParserItem item("NOMINATED_PHASE", ParserItem::itype::STRING);
+        item.setDefault( std::string("NONE") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("A", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("B", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("C", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("D", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("E", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("F", ParserItem::itype::DOUBLE);
+        item.setDefault( double(0) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("ALLOW_INCREASE", ParserItem::itype::STRING);
+        item.setDefault( std::string("YES") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("DAMPING_FACTOR", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1.000000) );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("USE_FREE_GAS", ParserItem::itype::STRING);
+        item.setDefault( std::string("NO") );
+        record.addItem(item);
+     }
+     {
+        ParserItem item("MIN_GUIDE_RATE", ParserItem::itype::DOUBLE);
+        item.setDefault( double(1e-06) );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GUIDERAT::keywordName = "GUIDERAT";
+const std::string GUIDERAT::MIN_CALC_TIME::itemName = "MIN_CALC_TIME";
+const std::string GUIDERAT::NOMINATED_PHASE::itemName = "NOMINATED_PHASE";
+const std::string GUIDERAT::NOMINATED_PHASE::defaultValue = "NONE";
+const std::string GUIDERAT::A::itemName = "A";
+const std::string GUIDERAT::B::itemName = "B";
+const std::string GUIDERAT::C::itemName = "C";
+const std::string GUIDERAT::D::itemName = "D";
+const std::string GUIDERAT::E::itemName = "E";
+const std::string GUIDERAT::F::itemName = "F";
+const std::string GUIDERAT::ALLOW_INCREASE::itemName = "ALLOW_INCREASE";
+const std::string GUIDERAT::ALLOW_INCREASE::defaultValue = "YES";
+const std::string GUIDERAT::DAMPING_FACTOR::itemName = "DAMPING_FACTOR";
+const std::string GUIDERAT::USE_FREE_GAS::itemName = "USE_FREE_GAS";
+const std::string GUIDERAT::USE_FREE_GAS::defaultValue = "NO";
+const std::string GUIDERAT::MIN_GUIDE_RATE::itemName = "MIN_GUIDE_RATE";
+
+
+GUPFREQ::GUPFREQ() : ParserKeyword("GUPFREQ", KeywordSize(1, false)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GUPFREQ");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("UPDATE_FREQ_TYPE", ParserItem::itype::STRING);
+        item.setDefault( std::string("ALL") );
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GUPFREQ::keywordName = "GUPFREQ";
+const std::string GUPFREQ::UPDATE_FREQ_TYPE::itemName = "UPDATE_FREQ_TYPE";
+const std::string GUPFREQ::UPDATE_FREQ_TYPE::defaultValue = "ALL";
+
+
+GWRTWCV::GWRTWCV() : ParserKeyword("GWRTWCV", KeywordSize(SLASH_TERMINATED)) {
+  addValidSectionName("SCHEDULE");
+  clearDeckNames();
+  addDeckName("GWRTWCV");
+  {
+     ParserRecord record;
+     {
+        ParserItem item("WELLS", ParserItem::itype::STRING);
+        item.setSizeType(ParserItem::item_size::ALL);
+        record.addItem(item);
+     }
+     addRecord( record );
+  }
+}
+const std::string GWRTWCV::keywordName = "GWRTWCV";
+const std::string GWRTWCV::WELLS::itemName = "WELLS";
+
+
+}
+}
