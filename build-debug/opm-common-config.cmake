@@ -22,11 +22,11 @@
 # Prevent multiple inclusions
 if(NOT opm-common_FOUND)
   # propagate these properties from one build system to the other
-  set (opm-common_PREFIX "/home/skpark0111/opm_study/opm-common_study")
+  set (opm-common_PREFIX "/home/sftl3/OPM/opm-common_study")
   set (opm-common_VERSION "2024.10")
   set (opm-common_DEFINITIONS "")
-  set (opm-common_INCLUDE_DIRS "/home/skpark0111/opm_study/opm-common_study;/usr/include;/usr/include/cjson")
-  set (opm-common_LIBRARY_DIRS "/usr/lib/x86_64-linux-gnu" "/home/skpark0111/opm_study/opm-common_study/build-debug/lib")
+  set (opm-common_INCLUDE_DIRS "/home/sftl3/OPM/opm-common_study;/usr/include;/usr/include/cjson")
+  set (opm-common_LIBRARY_DIRS "/usr/lib/x86_64-linux-gnu" "/home/sftl3/OPM/opm-common_study/build-debug/lib")
   set (opm-common_LINKER_FLAGS "-Wl,--enable-new-dtags")
   set (opm-common_CONFIG_VARS "HAVE_OPENMP;HAVE_TYPE_TRAITS;HAVE_VALGRIND;HAVE_FINAL;HAVE_ECL_INPUT;HAVE_CXA_DEMANGLE;HAVE_FNMATCH_H")
 
@@ -36,7 +36,7 @@ if(NOT opm-common_FOUND)
   set (opm-common_EMBEDDED_PYTHON OFF)
 
   # libraries come from the build tree where this file was generated
-  set (opm-common_LIBRARY "/home/skpark0111/opm_study/opm-common_study/build-debug/lib/libopmcommon.a")
+  set (opm-common_LIBRARY "/home/sftl3/OPM/opm-common_study/build-debug/lib/libopmcommon.a")
   set (opm-common_LIBRARIES ${opm-common_LIBRARY} "fmt::fmt;OpenMP::OpenMP_CXX;Boost::system;/usr/lib/x86_64-linux-gnu/libcjson.so")
 
   # The purpose of this string replacement operation is to enable use of the
@@ -120,18 +120,18 @@ if(NOT opm-common_FOUND)
       find_package(opm-common CONFIG)
     endif()
     # This is required to include OpmPackage /opm-common-prereq.cmake
-    set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" /home/skpark0111/opm_study/opm-common_study)
+    set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" /home/sftl3/OPM/opm-common_study)
 
     # extra code from variable OPM_PROJECT_EXTRA_CODE
     #ENABLE_ECL_INPUT is needed by opm-common-prereq.cmake
                                    set(ENABLE_ECL_INPUT ON)
-                                   set(OPM_MACROS_ROOT /home/skpark0111/opm_study/opm-common_study)
+                                   set(OPM_MACROS_ROOT /home/sftl3/OPM/opm-common_study)
                                    list(APPEND CMAKE_MODULE_PATH ${OPM_MACROS_ROOT}/cmake/Modules)
                                    include(OpmPackage) #Make macros available after find_package(opm-common)
-                                     set(COMPARE_ECL_COMMAND /home/skpark0111/opm_study/opm-common_study/build-debug/bin/compareECL)
-                                     set(OPM_PACK_COMMAND /home/skpark0111/opm_study/opm-common_study/build-debug/bin/opmpack)
-                                     set(RST_DECK_COMMAND /home/skpark0111/opm_study/opm-common_study/build-debug/bin/rst_deck)
-                                       list(APPEND opm-common_INCLUDE_DIRS /home/skpark0111/opm_study/opm-common_study/build-debug/include)
+                                     set(COMPARE_ECL_COMMAND /home/sftl3/OPM/opm-common_study/build-debug/bin/compareECL)
+                                     set(OPM_PACK_COMMAND /home/sftl3/OPM/opm-common_study/build-debug/bin/opmpack)
+                                     set(RST_DECK_COMMAND /home/sftl3/OPM/opm-common_study/build-debug/bin/rst_deck)
+                                       list(APPEND opm-common_INCLUDE_DIRS /home/sftl3/OPM/opm-common_study/build-debug/include)
                                          set(HAVE_ECL_INPUT 1)
                                          set(HAVE_ECL_OUTPUT 1)
     # end extra code

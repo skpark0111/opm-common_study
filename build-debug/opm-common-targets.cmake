@@ -57,7 +57,7 @@ set_target_properties(opmcommon PROPERTIES
 set_property(TARGET opmcommon APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(opmcommon PROPERTIES
   IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG "CXX"
-  IMPORTED_LOCATION_DEBUG "/home/skpark0111/opm_study/opm-common_study/build-debug/lib/libopmcommon.a"
+  IMPORTED_LOCATION_DEBUG "/home/sftl3/OPM/opm-common_study/build-debug/lib/libopmcommon.a"
   )
 
 # This file does not depend on other imported targets which have
